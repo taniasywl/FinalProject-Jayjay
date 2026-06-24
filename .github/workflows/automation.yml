@@ -1,0 +1,31 @@
+name: Automation Test Workflow
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  automation-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Grant Execute Permission
+        run: chmod +x gradlew
+
+      - name: Build Project
+        run: ./gradlew build
+
+      - name: Run Automation Tests
+        run: ./gradlew test
